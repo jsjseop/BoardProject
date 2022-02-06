@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
+
+<mapper namespace="com.sjseop.boardproject.mappers.user.userMapper">
+	
+	<resultMap type="UserVO" id="UserResultMap">
+		<id property="userId" column="user_id"/>
+		<result property="userPw" column="user_pw"/>
+		<result property="userName" column="user_name"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userJoinDate" column="user_join_date"/>
+		<result property="userLoginDate" column="user_login_date"/>
+		<result property="userSignature" column="user_signature"/>
+		<result property="userImg" column="user_img"/>
+		<result property="userPoint" column="user_point"/>
+	</resultMap>
+	
+	<insert id="register">
+		INSERT INTO tb_user(
+			user_id
+			, user_pw
+			, user_name
+			, user_email
+			, user_join_date
+			, user_login_date
+		) VALUES (
+			#{userId}
+			, #{userPw}
+			, #{userName}
+			, #{userEmail}
+			, SYSDATE
+			, SYSDATE
+		)
+	</insert>
+	
+	<select id="login" resultMap="UserResultMap">
+		SELECT
+			*
+		FROM tb_user
+		WHERE user_id = #{userId}
+	</select>
+	
+</mapper>

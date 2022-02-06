@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
+
+<mapper namespace="com.sjseop.boardproject.mappers.article.articleMapper">
+	
+	<resultMap type="ArticleVO" id="ArticleResultMap">
+		<id property="article_no" column="article_no"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="writer" column="writer"/>
+		<result property="regDate" column="regdate"/>
+		<result property="viewCnt" column="viewcnt"/>
+		<result property="replyCnt" column="replycnt"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="ArticleVO">
+		INSERT INTO tb_article(
+			article_no
+			, title
+			, content
+			, writer
+			, regdate
+			, viewcnt
+		) VALUES(
+			seq_article_no.NEXTVAL
+			, #{title}
+			, #{content}
+			, #{writer}
+			, SYSDATE
+			, #{viewCnt}
+		)
+	</insert>
+	
+	<select id="read" resultMap="ArticleResultMap">
+		SELECT
+			article_no
+			, title
+			, content
+			, writer
+			, regdate
+			, viewcnt
+		FROM tb_article
+		WHERE article_no = #{article_no}
+	</select>
+	
+	<update id="update">
+		UPDATE tb_article
+		SET
+			title = #{title}
+			, content = #{content}
+		WHERE article_no = #{article_no}
+	</update>
+	
+	<update id="updateReplyCnt">
+		UPDATE tb_article
+		SET replycnt = replycnt + #{amount}
+		WHERE article_no = #{article_no}
+	</update>
+	
+	<update id="updateViewCnt">
+		UPDATE tb_article
+		SET viewcnt = viewcnt + 1
+		WHERE article_no = #{article_no}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM tb_article
+		WHERE article_no = #{article_no}
+	</delete>
+	
+	<select id="listAll" resultType="ArticleVO">
+		<![CDATA[
+		SELECT
+			article_no
+			, title
+			, content
+			, writer
+			, regdate
+			, viewcnt
+		FROM tb_article
+		WHERE article_no > 0
+		ORDER BY article_no DESC, regdate DESC
+		]]>
+	</select>
+	
+	<select id="listCriteria" resultMap="ArticleResultMap">
+		<![CDATA[
+		SELECT
+			article_no
+			, title
+			, content
+			, writer
+			, regdate
+			, viewcnt
+		FROM
+			(SELECT
+				article_no, title, content, writer
+				, regdate, viewcnt, ROWNUM num
+			FROM tb_article
+			WHERE article_no > 0
+			ORDER BY article_no DESC)
+		WHERE num BETWEEN (#{pageStart} + 1) AND (#{pageStart} + #{perPageNum})
+		]]>
+	</select>
+	
+	<select id="listSearch" resultMap="ArticleResultMap">
+		<![CDATA[
+		SELECT
+			article_no
+			, title
+			, content
+			, writer
+			, regdate
+			, viewcnt
+			, replycnt
+		FROM 
+			(SELECT
+				article_no, title, content, writer
+				, regdate, viewcnt, replycnt, ROWNUM num
+			FROM tb_article
+			WHERE article_no > 0
+		]]>
+			<include refid="search"/>
+		<![CDATA[
+			ORDER BY article_no DESC)
+		WHERE num BETWEEN (#{pageStart} + 1) AND (#{pageStart} + #{perPageNum})
+		]]>
+	</select>
+	
+	<select id="countArticles" resultType="int">
+		<![CDATA[
+		SELECT
+			COUNT(article_no)
+		FROM tb_article
+		WHERE article_no > 0
+		]]>
+	</select>
+	
+	<select id="countSearchedArticles" resultType="int">
+		<![CDATA[
+		SELECT
+			COUNT(article_no)
+		FROM tb_article
+		WHERE article_no > 0
+		]]>
+		<include refid="search"/>
+	</select>
+	
+	<sql id="search">
+		<if test="searchType != null"> 
+			<if test="searchType == 't'.toString()"> 
+				AND title LIKE '%'||#{keyword}||'%' 
+			</if> 
+			<if test="searchType == 'c'.toString()"> 
+				AND content LIKE '%'||#{keyword}||'%'
+			</if> 
+			<if test="searchType == 'w'.toString()"> 
+				AND writer LIKE '%'||#{keyword}||'%'
+			</if> 
+			<if test="searchType == 'tc'.toString()"> 
+				AND ( 
+					title LIKE '%'||#{keyword}||'%'
+					OR content LIKE '%'||#{keyword}||'%')
+				) 
+			</if> 
+			<if test="searchType == 'cw'.toString()"> 
+				AND ( 
+					content LIKE '%'||#{keyword}||'%'
+					OR writer LIKE '%'||#{keyword}||'%'
+				) 
+			</if> 
+			<if test="searchType == 'tcw'.toString()"> 
+				AND ( 
+					title LIKE '%'||#{keyword}||'%'
+					OR content LIKE '%'||#{keyword}||'%'
+					OR writer LIKE '%'||#{keyword}||'%'
+				) 
+			</if> 
+		</if>
+	</sql>
+	
+</mapper>
