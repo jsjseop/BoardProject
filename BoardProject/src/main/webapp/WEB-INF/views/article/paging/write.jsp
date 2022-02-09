@@ -58,7 +58,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         				</div> 
         				<div class="form-group"> 
         					<label for="writer">작성자</label> 
-        					<input class="form-control" id="writer" name="writer"> 
+        					<input class="form-control" id="writer" name="writer" value="${login.userId}" readonly> 
         				</div> 
         			</div> 
         			<div class="card-footer"> 

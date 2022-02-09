@@ -26,11 +26,19 @@
 	
 
 	<bean id="loginInterceptor" class="com.sjseop.boardproject.commons.interceptor.LoginInterceptor"/>
+	<bean id="authInterceptor" class="com.sjseop.boardproject.commons.interceptor.AuthInterceptor"/>
 	
 	<mvc:interceptors>
 	    <mvc:interceptor>
 	      <mvc:mapping path="/user/loginPost"/>
 	      <ref bean="loginInterceptor"/>
+	    </mvc:interceptor>
+	    <mvc:interceptor>
+	      <mvc:mapping path="/article/paging/search/write"/>
+	      <mvc:mapping path="/article/paging/search/modify"/>
+	      <mvc:mapping path="/article/paging/search/remove"/>
+	      <mvc:mapping path="/user/info"/>
+	      <ref bean="authInterceptor"/>
 	    </mvc:interceptor>
 	</mvc:interceptors>
 	

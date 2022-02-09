@@ -38,7 +38,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		if(userVO != null) {
 			logger.info("new login success");
 			session.setAttribute(LOGIN, userVO);
-			response.sendRedirect("/");
+			Object destination = request.getSession().getAttribute("destination");
+			response.sendRedirect(destination != null ? (String)destination : "/");
 		}
 		
 	}

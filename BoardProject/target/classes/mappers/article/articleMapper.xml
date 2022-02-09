@@ -40,7 +40,7 @@
 			, title
 			, content
 			, writer
-			, regdate
+			, reg_date
 			, viewcnt
 		FROM tb_article
 		WHERE article_no = #{article_no}

@@ -43,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         		<div class="card-body" style="height: 700px"> ${article.content} </div> 
         		<div class="card-footer"> 
         			<div class="user-block"> 
-        				<img class="img-circle img-bordered-sm" src="/boardproject/resources/img/user1-128x128.jpg" alt="user image"> 
+        				<img class="img-circle img-bordered-sm" src="${path}/dist/img/user1-128x128.jpg" alt="user image"> 
         				<span class="username"> 
         					<a href="#">${article.writer}</a> 
         				</span> 
@@ -59,31 +59,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	        			<input type="hidden" name="keyword" value="${searchCriteria.keyword}">
         			</form> 
         			<button type="submit" class="btn btn-primary listBtn"><i class="fa fa-list"></i> 목록</button> 
-        			<div class="float-right"> 
-        				<button type="submit" class="btn btn-warning modBtn"><i class="fa fa-edit"></i> 수정</button> 
-        				<button type="submit" class="btn btn-danger delBtn"><i class="fa fa-trash"></i> 삭제</button> 
-        			</div> 
+        			<c:if test="${login.userId == article.writer}">
+        				<div class="float-right"> 
+	        				<button type="submit" class="btn btn-warning modBtn"><i class="fa fa-edit"></i> 수정</button> 
+	        				<button type="submit" class="btn btn-danger delBtn"><i class="fa fa-trash"></i> 삭제</button> 
+	        			</div> 
+        			</c:if>
         		</div> 
         	</div> 
         	
         	<%-- 댓글 입력 부분 --%>
         	<div class="card">
 	        	<div class="card-body">
-				  <form class="form-horizontal">
-				    <div class="row">
-				      <div class="form-group col-sm-8">
-				        <input class="form-control input-sm" id="newReplyText" type="text" placeholder="댓글 입력...">
-				      </div>
-				      <div class="form-group col-sm-2">
-				        <input class="form-control input-sm" id="newReplyWriter" type="text" placeholder="작성자">
-				      </div>
-				      <div class="form-group col-sm-2">
-				        <button type="button" class="btn btn-primary btn-sm btn-block replyAddBtn">
-				        <i class="fa fa-save"></i> 저장
-				      </button>
-				      </div>
-				    </div>	
-				  </form>	
+	        	  <c:if test="${not empty login}">
+					  <form class="form-horizontal">
+					    <div class="row">
+					      <div class="form-group col-sm-8">
+					        <input class="form-control input-sm" id="newReplyText" type="text" placeholder="댓글 입력...">
+					      </div>
+					      <div class="form-group col-sm-2">
+					        <input class="form-control input-sm" id="newReplyWriter" type="text" value="${login.userId}" placeholder="작성자" readonly>
+					      </div>
+					      <div class="form-group col-sm-2">
+					        <button type="button" class="btn btn-primary btn-sm btn-block replyAddBtn">
+					        <i class="fa fa-save"></i> 저장
+					      </button>
+					      </div>
+					    </div>	
+					  </form>	
+	        	  </c:if>
+				  <c:if test="${empty login}">
+				  	<a href="${path}/user/login" class="btn btn-default btn-block" role="button">
+				    	<i class="fa fa-edit"></i> 로그인 한 사용자만 댓글 등록이 가능합니다.
+				    </a>
+				  </c:if>
 				</div>
 			</div>
 			
@@ -187,13 +196,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <img class="img-circle img-bordered-sm" src="${path}/resources/img/user1-128x128.jpg" alt="user image">
             <span class="username">
                 <a href="#">{{reply_writer}}</a>
-				
+					{{#eqReplyWriter reply_writer}}
                 <a href="javascript:void(0);" class="float-right btn-box-tool replyDelBtn" data-toggle="modal" data-target="#delModal">
                     <i class="fa fa-times" id="replyDelBtn"> 삭제</i>
                 </a>
                 <a href="javascript:void(0);" class="float-right btn-box-tool replyModBtn" data-toggle="modal" data-target="#modModal">
                     <i class="fa fa-edit" id="replyModBtn"> 수정</i>
                 </a>
+					{{/eqReplyWriter}}
             </span>
 			<span class="description">{{prettifyDate reg_date}}</span>
         </div>
@@ -245,6 +255,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	        hours < 10 ? hours = '0' + hours : hours;
 	        minutes < 10 ? minutes = '0' + minutes : minutes;
 	        return year + "-" + month + "-" + date ;
+	    });
+		
+	    Handlebars.registerHelper("eqReplyWriter", function (reply_writer, block) {
+	        var accum = "";
+	        if (reply_writer === "${login.userId}") {
+	            accum += block.fn();
+	        }
+	        return accum;
 	    });
 
 	    // 댓글 목록 함수 호출

@@ -44,12 +44,14 @@
 			, reply_text
 			, reply_writer
 			, reg_date
+			, update_date
 		)VALUES(
 			seq_reply_no.NEXTVAL
 			, #{article_no}
 			, #{reply_text}
 			, #{reply_writer}
-			,SYSDATE
+			, SYSDATE
+			, SYSDATE
 		)
 	</insert>
 	
