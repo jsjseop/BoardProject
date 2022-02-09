@@ -22,7 +22,7 @@
 			, title
 			, content
 			, writer
-			, regdate
+			, reg_date
 			, viewcnt
 		) VALUES(
 			seq_article_no.NEXTVAL
@@ -78,11 +78,11 @@
 			, title
 			, content
 			, writer
-			, regdate
+			, reg_date
 			, viewcnt
 		FROM tb_article
 		WHERE article_no > 0
-		ORDER BY article_no DESC, regdate DESC
+		ORDER BY article_no DESC, reg_date DESC
 		]]>
 	</select>
 	
@@ -93,12 +93,12 @@
 			, title
 			, content
 			, writer
-			, regdate
+			, reg_date
 			, viewcnt
 		FROM
 			(SELECT
 				article_no, title, content, writer
-				, regdate, viewcnt, ROWNUM num
+				, reg_date, viewcnt, ROWNUM num
 			FROM tb_article
 			WHERE article_no > 0
 			ORDER BY article_no DESC)
@@ -113,13 +113,13 @@
 			, title
 			, content
 			, writer
-			, regdate
+			, reg_date
 			, viewcnt
 			, replycnt
 		FROM 
 			(SELECT
 				article_no, title, content, writer
-				, regdate, viewcnt, replycnt, ROWNUM num
+				, reg_date, viewcnt, replycnt, ROWNUM num
 			FROM tb_article
 			WHERE article_no > 0
 		]]>

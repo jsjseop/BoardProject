@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <%@ include file = "../../include/head.jsp" %>
 </head>
-<body class="hold-transition sidebar-mini layout-boxed">
+<body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
   <!-- Navbar -->

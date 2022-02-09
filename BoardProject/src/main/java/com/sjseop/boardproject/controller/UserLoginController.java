@@ -37,12 +37,14 @@ public class UserLoginController {
 		
 		logger.info("login POST...");
 		UserVO userVO = userService.login(loginDTO);
+		logger.info(userVO.toString());
+		logger.info(loginDTO.toString());
 		
 		if(userVO == null || !BCrypt.checkpw(loginDTO.getUserPw(), userVO.getUserPw())) {
 			return;
 		}
 		
-		model.addAttribute("userVO", userVO);
+		model.addAttribute("user", userVO);
 	}
 	
 }
