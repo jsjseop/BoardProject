@@ -13,6 +13,7 @@
 		<result property="reply_writer" column="reply_writer"/>
 		<result property="reg_date" column="reg_date"/>
 		<result property="update_date" column="update_date"/>
+		<association property="userVO" resultMap="UserResultMap"/>
 	</resultMap>
 	
 	<resultMap type="ArticleVO" id="ArticleResultMap">
@@ -22,6 +23,18 @@
 		<result property="writer" column="writer"/>
 		<result property="regDate" column="regdate"/>
 		<result property="viewCnt" column="viewcnt"/>
+	</resultMap>
+	
+	<resultMap type="UserVO" id="UserResultMap">
+		<id property="userId" column="user_id"/>
+		<result property="userPw" column="user_pw"/>
+		<result property="userName" column="user_name"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userJoinDate" column="user_join_date"/>
+		<result property="userLoginDate" column="user_login_date"/>
+		<result property="userSignature" column="user_signature"/>
+		<result property="userImg" column="user_img"/>
+		<result property="userPoint" column="user_point"/>
 	</resultMap>
 	
 	<select id="list" resultMap="ReplyResultMap">
@@ -76,6 +89,7 @@
 			, reply_writer
 			, reg_date
 			, update_date
+			, user_img
 		FROM 
 			(SELECT
 				reply_no
@@ -84,9 +98,11 @@
 				, reply_writer
 				, reg_date
 				, update_date
+				, user_img
 				, ROWNUM num
-			FROM tb_reply
-			WHERE article_no = #{article_no}
+			FROM tb_reply, tb_user
+			WHERE tb_reply.reply_writer = tb_user.user_id
+				AND article_no = #{article_no}
 			ORDER BY reply_no)
 		WHERE num BETWEEN (#{criteria.pageStart} + 1) AND (#{criteria.pageStart} + #{criteria.perPageNum})
 	</select>

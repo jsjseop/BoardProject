@@ -43,4 +43,18 @@
 		WHERE user_id = #{userId}
 	</select>
 	
+	<update id="keepLogin">
+		UPDATE tb_user
+		SET session_key = #{sessionId}
+			, session_limit = #{sessionLimit}
+		WHERE user_id = #{userId}
+	</update>
+	
+	<select id="checkUserWithSessionKey" resultMap="UserResultMap">
+		SELECT 
+			*
+		FROM tb_user
+		WHERE session_key = #{sessionId}
+	</select>
+	
 </mapper>
