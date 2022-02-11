@@ -1,6 +1,7 @@
 package com.sjseop.boardproject.domain;
 
 import java.sql.Date;
+import java.util.Arrays;
 
 public class ArticleVO {
 	
@@ -11,6 +12,9 @@ public class ArticleVO {
 	private Date regDate;
 	private int viewCnt;
 	private int replyCnt;
+	
+	private String[] files;
+	private int fileCnt;
 	
 	public Integer getArticle_no() {
 		return article_no;
@@ -55,10 +59,24 @@ public class ArticleVO {
 		this.replyCnt = replyCnt;
 	}
 	
+	public String[] getFiles() {
+		return files;
+	}
+	public void setFiles(String[] files) {
+		this.files = files;
+		setFileCnt(files.length);
+	}
+	public int getFileCnt() {
+		return fileCnt;
+	}
+	public void setFileCnt(int fileCnt) {
+		this.fileCnt = fileCnt;
+	}
 	@Override
 	public String toString() {
 		return "ArticleVO [article_no=" + article_no + ", title=" + title + ", content=" + content + ", writer="
-				+ writer + ", regDate=" + regDate + ", viewCnt=" + viewCnt + "]";
+				+ writer + ", regDate=" + regDate + ", viewCnt=" + viewCnt + ", replyCnt=" + replyCnt + ", files="
+				+ Arrays.toString(files) + ", fileCnt=" + fileCnt + "]";
 	}
 	
 }

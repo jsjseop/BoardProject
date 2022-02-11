@@ -16,4 +16,6 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="${path}/dist/css/adminlte.min.css">
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css"> -->
+  <!-- light box CSS -->
+  <link rel="stylesheet" href="${path}/plugins/ekko-lightbox/ekko-lightbox.css">
 </head>
