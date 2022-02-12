@@ -27,6 +27,29 @@ public class ArticlePagingSearchController {
 	@Inject
 	private ArticleService articleService;
 	
+	//글 작성 페이지 이동
+	@GetMapping("/write")
+	public String write() {
+		
+		logger.info("write GET...");
+		
+		return "article/search/write";
+	}
+	
+	//글 작성 처리
+	@PostMapping("/write")
+	public String write(ArticleVO articleVO,
+									RedirectAttributes redirectAttributes) throws Exception {
+		
+		logger.info("write POST...");
+		logger.info(articleVO.toString());
+		
+		articleService.create(articleVO);
+		redirectAttributes.addFlashAttribute("msg", "regSuccess");
+		
+		return "redirect:/article/paging/search/list";
+	}
+	
 	//글 조회 처리
 	@GetMapping("/read")
 	public String read(@RequestParam("article_no") int article_no,
