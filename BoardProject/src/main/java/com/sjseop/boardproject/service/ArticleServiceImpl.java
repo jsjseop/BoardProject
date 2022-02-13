@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,21 +13,36 @@ import com.sjseop.boardproject.commons.paging.Criteria;
 import com.sjseop.boardproject.commons.paging.SearchCriteria;
 import com.sjseop.boardproject.domain.ArticleVO;
 import com.sjseop.boardproject.persistence.ArticleDAO;
+import com.sjseop.boardproject.persistence.ArticleFileDAO;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
 	private final ArticleDAO articleDAO;
 	
+	@Autowired
+	private ArticleFileDAO articleFileDAO;
+	
 	@Inject
 	public ArticleServiceImpl(ArticleDAO articleDAO) {
 		this.articleDAO = articleDAO;
 	}
 
+	@Transactional
 	@Override
 	public void create(ArticleVO articleVO) throws Exception {
 		// TODO Auto-generated method stub
 		articleDAO.create(articleVO);
+		
+		String[] files = articleVO.getFiles();
+		
+		if(files == null) {
+			return;
+		}
+		//첨부파일 저장
+		for(String fileName : files) {
+			articleFileDAO.addFile(fileName);
+		}
 	}
 
 	@Transactional(isolation = Isolation.READ_COMMITTED)

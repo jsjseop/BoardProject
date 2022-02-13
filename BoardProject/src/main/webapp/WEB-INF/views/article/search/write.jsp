@@ -7,6 +7,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html lang="en">
 <head>
   <%@ include file = "../../include/head.jsp" %>
+<style>
+.fileDrop {
+    width: 100%;
+    height: 200px;
+    border: 2px dotted #0b58a2;
+}
+</style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -60,7 +67,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
         					<label for="writer">작성자</label> 
         					<input class="form-control" id="writer" name="writer" value="${login.userId}" readonly> 
         				</div> 
+        				<%--첨부파일 영역 추가--%>
+		                <div class="form-group">
+		                    <div class="fileDrop">
+		                        <br/>
+		                        <br/>
+		                        <br/>
+		                        <br/>
+		                        <p class="text-center"><i class="fa fa-paperclip"></i> 첨부파일을 드래그해주세요.</p>
+		                    </div>
+		                </div>
         			</div> 
+        			<%--첨부파일 영역 추가--%>
+        			<div class="card-footer">
+		                <ul class="mailbox-attachments clearfix uploadedFileList"></ul>
+		            </div>
         			<div class="card-footer"> 
         				<button type="button" class="btn btn-primary"><i class="fa fa-list"></i> 목록</button> 
 	        			<div class="float-right"> 
@@ -95,4 +116,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 <%@ include file = "../../include/plugin_js.jsp" %>
 </body>
+<script id="fileTemplate" type="text/x-handlebars-template">
+    <li>
+        <span class="mailbox-attachment-icon has-img">
+            <img src="" alt="Attachment">
+        </span>
+        <div class="mailbox-attachment-info">
+            <a href="" class="mailbox-attachment-name">
+                <i class="fa fa-paperclip"></i> 
+            </a>
+            <a href="" class="btn btn-default btn-xs pull-right delBtn">
+                <i class="fa fa-fw fa-remove"></i>
+            </a>
+        </div>
+    </li>
+</script>
+<script type="text/javascript" src="/resources/dist/js/article_file_upload.js"></script>
+<script>
+	//게시글 저장 버튼 클릭 시
+	$("#writeForm").submit(function(event){
+		event.preventDefault();
+		var that = $(this);
+		filesSubmit(that);
+	});
+	
+	//파일 삭제 버튼 클릭 시
+	$(document).on("click", ".delBtn", function(event){
+		event.preventDefault();
+		var that = $(this);
+		deleteFileWrtPage(that);
+	});
+</script>
 </html>

@@ -155,7 +155,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	})
 	
 	$("#writeBtn").on("click", function(){
-		self.location = "${path}/article/paging/write";
+		self.location = "${path}/article/paging/search/write";
 	});
 </script>
 </html>
