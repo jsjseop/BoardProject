@@ -62,7 +62,7 @@ function printFiles(data) {
         // 마지막에 추가된 첨부파일 템플릿 선택자
         var that = $(".uploadedFileList li").last();
         // lightbox 속성 추가
-        that.find(".mailbox-attachment-name").attr("data-lightbox", "uploadImages");
+        that.find(".mailbox-attachment-name").attr("data-toggle", "lightbox");
         // 파일 아이콘에서 이미지 아이콘으로 변경
         that.find(".fa-paperclip").attr("class", "fa fa-camera");
     }
@@ -81,6 +81,12 @@ function filesSubmit(that) {
 // 파일 삭제(입력페이지) : 첨부파일만 삭제처리
 function deleteFileWrtPage(that) {
     var url = "/article/file/delete";
+    deleteFile(url, that);
+}
+
+// 파일 삭제(수정페이지) : 서버에 저장된 첨부파일과 DB에 저장된 첨부파일 정보 삭제처리
+function deleteFileModPage(that, articleNo) {
+    var url = "/article/file/delete/" + articleNo;
     deleteFile(url, that);
 }
 
@@ -108,6 +114,7 @@ function getFileInfo(fullName) {
     var originalFileUrl;    // 원본파일 요청 URL
     var uuidFileName;       // 날짜경로를 제외한 나머지 파일명 (UUID_파일명.확장자)
 
+
     // 이미지 파일이면
     if (checkImageType(fullName)) {
         imgSrc = "/article/file/display?fileName=" + fullName; // 썸네일 이미지 링크
@@ -130,4 +137,16 @@ function getFileInfo(fullName) {
 function checkImageType(fullName) {
     var pattern = /jpg$|gif$|png$|jpge$/i;
     return fullName.match(pattern);
+}
+
+// 파일 목록 : 게시글 조회, 수정페이지
+function getFiles(article_no) {
+    $.getJSON("/article/file/list/" + article_no, function (list) {
+        if (list.length === 0) {
+            $(".uploadedFileList").html("<span class='noAttach'>첨부파일이 없습니다.</span>");
+        }
+        $(list).each(function () {
+            printFiles(this);
+        })
+    });
 }

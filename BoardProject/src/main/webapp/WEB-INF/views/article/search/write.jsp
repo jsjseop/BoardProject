@@ -126,7 +126,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <i class="fa fa-paperclip"></i> {{originalFileName}}
             </a>
             <a href="{{fullName}}" class="btn btn-default btn-xs pull-right delBtn">
-                <i class="fa fa-fw fa-remove"></i>
+                <i class="far fa-trash-alt"></i>
             </a>
         </div>
     </li>
@@ -146,5 +146,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		var that = $(this);
 		deleteFileWrtPage(that);
 	});
+	
+	//이미지 클릭 시 lightbox 팝업 호출
+	$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
 </script>
 </html>

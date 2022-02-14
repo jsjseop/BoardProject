@@ -18,4 +18,43 @@
 		)
 	</insert>
 	
+	<select id="getArticleFiles" resultType="String">
+		SELECT file_name
+		FROM tb_article_file
+		WHERE article_no = #{article_no}
+		ORDER BY reg_date
+	</select>
+	
+	<delete id="deleteFiles">
+		DELETE FROM tb_article_file
+		WHERE article_no = #{article_no}
+	</delete>
+	
+	<delete id="deleteFile">
+		DELETE FROM tb_article_file
+		WHERE file_name = #{fileName}
+	</delete>
+	
+	<insert id="replaceFile">
+		INSERT INTO tb_article_file (
+			file_name
+			, article_no
+			, reg_date
+		) VALUES (
+			#{fileName}
+			, #{article_no}
+			, SYSDATE
+		)
+	</insert>
+	
+	<update id="updateFileCnt">
+		UPDATE tb_article
+		SET fileCnt = (
+			SELECT COUNT(article_no)
+			FROM tb_article_file
+			WHERE article_no = #{article_no}
+		)
+		WHERE article_no = #{article_no}
+	</update>
+	
 </mapper>

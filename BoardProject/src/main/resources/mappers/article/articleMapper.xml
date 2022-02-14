@@ -11,7 +11,7 @@
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
 		<result property="writer" column="writer"/>
-		<result property="regDate" column="regdate"/>
+		<result property="regDate" column="reg_date"/>
 		<result property="viewCnt" column="viewcnt"/>
 		<result property="replyCnt" column="replycnt"/>
 	</resultMap>

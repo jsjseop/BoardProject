@@ -53,15 +53,29 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleDAO.read(article_no);
 	}
 
+	@Transactional
 	@Override
 	public void update(ArticleVO articleVO) throws Exception {
 		// TODO Auto-generated method stub
+		Integer article_no = articleVO.getArticle_no();
+		String[] files = articleVO.getFiles();
+		
 		articleDAO.update(articleVO);
+		articleFileDAO.deleteFiles(article_no);
+		
+		if(files == null) {
+			return;
+		}
+		for(String fileName : files) {
+			articleFileDAO.replaceFile(fileName, article_no);
+		}
 	}
 
+	@Transactional
 	@Override
 	public void delete(Integer article_no) throws Exception {
 		// TODO Auto-generated method stub
+		articleFileDAO.deleteFiles(article_no);
 		articleDAO.delete(article_no);
 	}
 

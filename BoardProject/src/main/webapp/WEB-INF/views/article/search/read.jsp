@@ -66,6 +66,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	        			</div> 
         			</c:if>
         		</div> 
+        		<%--업로드 파일 정보 영역--%>
+				<div class="box-footer uploadFiles">
+				    <ul class="mailbox-attachments clearfix uploadedFileList"></ul>
+				</div>
+				<%--업로드 파일 정보 영역--%>
         	</div> 
         	
         	<%-- 댓글 입력 부분 --%>
@@ -212,6 +217,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     {{/each}}
 </script>
+<script id="fileTemplate" type="text/x-handlebars-template">
+    <li data-src="{{fullName}}">
+        <span class="mailbox-attachment-icon has-img">
+            <img src="{{imgSrc}}" alt="Attachment">
+        </span>
+        <div class="mailbox-attachment-info">
+            <a href="{{originalFileUrl}}" class="mailbox-attachment-name">
+                <i class="fa fa-paperclip"></i> {{originalFileName}}
+            </a>
+        </div>
+    </li>
+</script>
+<script type="text/javascript" src="/resources/dist/js/article_file_upload.js"></script>
 <script>
 	$(document).ready(function () { 
 		var formObj = $("form[role='form']"); 
@@ -221,6 +239,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			formObj.attr("method", "get"); formObj.submit(); 
 		}); 
 		$(".delBtn").on("click", function () { 
+
+		    // 첨부파일명들을 배열에 저장
+		    var arr = [];
+		    $(".uploadedFileList li").each(function () {
+		        arr.push($(this).attr("data-src"));
+		    });
+
+		    // 첨부파일 삭제요청
+		    if (arr.length > 0) {
+		        $.post("/article/file/deleteAll", {files: arr}, function () {
+
+		        });
+		    }
+			
 			formObj.attr("action", "${path}/article/paging/search/remove"); 
 			formObj.submit(); 
 		}); 
@@ -265,6 +297,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	        return accum;
 	    });
 
+	 	// 첨부파일 목록
+	    getFiles(article_no);
+	    
 	    // 댓글 목록 함수 호출
 	    getReplies("${path}/replies/" + article_no + "/" + replyPageNum);
 
@@ -434,6 +469,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	                }
 	            }
 	        });
+	    });
+	    
+	  	//이미지 클릭 시 lightbox 팝업 호출
+		$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+	        event.preventDefault();
+	        $(this).ekkoLightbox();
 	    });
 	});
 </script>
