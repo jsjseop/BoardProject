@@ -119,13 +119,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script id="fileTemplate" type="text/x-handlebars-template">
     <li>
         <span class="mailbox-attachment-icon has-img">
-            <img src="" alt="Attachment">
+            <img src="{{imgSrc}}" alt="Attachment">
         </span>
         <div class="mailbox-attachment-info">
-            <a href="" class="mailbox-attachment-name">
-                <i class="fa fa-paperclip"></i> 
+            <a href="{{originalFileUrl}}" class="mailbox-attachment-name">
+                <i class="fa fa-paperclip"></i> {{originalFileName}}
             </a>
-            <a href="" class="btn btn-default btn-xs pull-right delBtn">
+            <a href="{{fullName}}" class="btn btn-default btn-xs pull-right delBtn">
                 <i class="fa fa-fw fa-remove"></i>
             </a>
         </div>
