@@ -14,6 +14,7 @@
 		<result property="regDate" column="reg_date"/>
 		<result property="viewCnt" column="viewcnt"/>
 		<result property="replyCnt" column="replycnt"/>
+		<result property="fileCnt" column="filecnt"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="ArticleVO">
@@ -24,6 +25,7 @@
 			, writer
 			, reg_date
 			, viewcnt
+			, filecnt
 		) VALUES(
 			seq_article_no.NEXTVAL
 			, #{title}
@@ -31,6 +33,7 @@
 			, #{writer}
 			, SYSDATE
 			, #{viewCnt}
+			, #{fileCnt}
 		)
 	</insert>
 	
@@ -95,10 +98,11 @@
 			, writer
 			, reg_date
 			, viewcnt
+			, filecnt
 		FROM
 			(SELECT
 				article_no, title, content, writer
-				, reg_date, viewcnt, ROWNUM num
+				, reg_date, viewcnt, filecnt, ROWNUM num
 			FROM tb_article
 			WHERE article_no > 0
 			ORDER BY article_no DESC)
@@ -116,10 +120,11 @@
 			, reg_date
 			, viewcnt
 			, replycnt
+			, filecnt
 		FROM 
 			(SELECT
 				article_no, title, content, writer
-				, reg_date, viewcnt, replycnt, ROWNUM num
+				, reg_date, viewcnt, replycnt, filecnt, ROWNUM num
 			FROM tb_article
 			WHERE article_no > 0
 		]]>

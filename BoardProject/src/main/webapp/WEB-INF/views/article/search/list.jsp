@@ -45,9 +45,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				        <tbody> 
 				        <tr> 
 					        <th style="width: 30px">#</th> 
-					        <th>제목</th> 
+					        <th style="width: 500px">제목</th> 
 					        <th style="width: 100px">작성자</th> 
 					        <th style="width: 150px">작성시간</th> 
+					        <th style="width: 60px">파일</th>
 					        <th style="width: 60px">조회</th> 
 				        </tr> 
 				        <c:forEach items="${articles}" var="article"> 
@@ -59,7 +60,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					        </td>
 					        <td>${article.writer}</td> 
 					        <td><fmt:formatDate value="${article.regDate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td> 
-					        <td><span class="badge bg-green">${article.viewCnt}</span></td> 
+					        <td><span class="badge bg-red">${article.fileCnt}</span></td>
+					        <td><span class="badge bg-green">${article.viewCnt}</span></td>
 				        </tr> 
 				        </c:forEach> 
 				        </tbody> 

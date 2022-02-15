@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -18,6 +20,8 @@ import com.sjseop.boardproject.persistence.ArticleFileDAO;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
+	private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
+	
 	private final ArticleDAO articleDAO;
 	
 	@Autowired
@@ -60,6 +64,8 @@ public class ArticleServiceImpl implements ArticleService {
 		Integer article_no = articleVO.getArticle_no();
 		String[] files = articleVO.getFiles();
 		
+		logger.info(articleVO.toString());
+		
 		articleDAO.update(articleVO);
 		articleFileDAO.deleteFiles(article_no);
 		
@@ -69,6 +75,7 @@ public class ArticleServiceImpl implements ArticleService {
 		for(String fileName : files) {
 			articleFileDAO.replaceFile(fileName, article_no);
 		}
+		articleFileDAO.updateFileCnt(article_no);
 	}
 
 	@Transactional

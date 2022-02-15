@@ -32,7 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
         <div class="col-lg-12"> 
-        	<form role="form" id="writeForm" method="post" action="${path}/article/paging/modify"> 
+        	<form role="form" id="modifyForm" method="post" action="${path}/article/paging/search/modify"> 
 	        	<div class="card"> 
 	        		<div class="card-header"> 
 	        			<h3 class="card-title">게시글 수정</h3> 
@@ -104,7 +104,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="{{originalFileUrl}}" class="mailbox-attachment-name">
                 <i class="fa fa-paperclip"></i> {{originalFileName}}
             </a>
-            <a href="{{fullName}}" class="btn btn-default btn-xs pull-right delBtn">
+            <a href="{{fullName}}" class="btn btn-default btn-xs pull-right delBtn" id="fullName">
                 <i class="far fa-trash-alt"></i>
             </a>
         </div>
@@ -137,7 +137,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		    event.preventDefault();
 		    if (confirm("삭제하시겠습니까? 삭제된 파일은 복구할 수 없습니다.")) {
 		        var that = $(this);
-		        deleteFileModPage(that, articleNo);
+		        deleteFileModPage(that, article_no);
 		    }
 		});
 		
@@ -145,11 +145,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		getFiles(article_no);
 
 		// 수정 처리시 첨부파일 정보도 함께 처리
-		$("#modifyForm").submit(function (event) {
-		    event.preventDefault();
+		var modifyForm = $("#modifyForm")[0];
+		modifyForm.addEventListener("submit", function(event){
+			event.preventDefault();
 		    var that = $(this);
-		    filesSubmit(that);
-		});
+
+	    	var str = "";
+	        $(".uploadedFileList #fullName").each(function (index) {
+	            str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "'>";
+	        });
+	        
+	        that.append(str);
+	        that.submit();
+		})
+		
+		//이미지 클릭 시 lightbox 팝업 호출
+		$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+	        event.preventDefault();
+	        $(this).ekkoLightbox();
+	    });
 	});
 </script>
 </html>
