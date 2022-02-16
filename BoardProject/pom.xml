@@ -53,6 +53,12 @@
 			<artifactId>spring-tx</artifactId> 
 			<version>${org.springframework-version}</version> 
 		</dependency>
+		<!-- AOP -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aop</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
 		
 		
 		<!--MySQL 라이브러리--> 
@@ -129,6 +135,11 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
 		</dependency>	
+		<dependency>
+		   <groupId>org.aspectj</groupId>
+		   <artifactId>aspectjtools</artifactId>
+		   <version>${org.aspectj-version}</version>
+		</dependency>
 		
 		<!-- Logging -->
 		<dependency>
