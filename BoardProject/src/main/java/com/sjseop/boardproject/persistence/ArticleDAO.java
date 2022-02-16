@@ -30,4 +30,5 @@ public interface ArticleDAO {
 	
 	void updateViewCnt(Integer article_no) throws Exception;
 	
+	List<ArticleVO> userBoardList(String userId) throws Exception;
 }

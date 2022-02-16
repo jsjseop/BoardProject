@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserVO login(LoginDTO loginDTO) throws Exception {
 		// TODO Auto-generated method stub
+		userDAO.updateLoginDate(loginDTO.getUserId());
 		return userDAO.login(loginDTO);
 	}
 
@@ -39,6 +40,30 @@ public class UserServiceImpl implements UserService {
 	public UserVO checkLoginBefore(String sessionId) throws Exception {
 		// TODO Auto-generated method stub
 		return userDAO.checkUserWithSessionKey(sessionId);
+	}
+
+	@Override
+	public void modifyUser(UserVO userVO) throws Exception {
+		// TODO Auto-generated method stub
+		userDAO.updateUser(userVO);
+	}
+
+	@Override
+	public UserVO getUser(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return userDAO.getUser(userId);
+	}
+
+	@Override
+	public void modifyPw(UserVO userVO) throws Exception {
+		// TODO Auto-generated method stub
+		userDAO.updatePw(userVO);
+	}
+
+	@Override
+	public void modifyImg(String userId, String userImg) throws Exception {
+		// TODO Auto-generated method stub
+		userDAO.updateImg(userId, userImg);
 	}
 
 }

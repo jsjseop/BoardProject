@@ -116,4 +116,10 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleDAO.countSearchedArticles(searchCriteria);
 	}
 
+	@Override
+	public List<ArticleVO> userBoardList(String usreId) throws Exception {
+		// TODO Auto-generated method stub
+		return articleDAO.userBoardList(usreId);
+	}
+
 }

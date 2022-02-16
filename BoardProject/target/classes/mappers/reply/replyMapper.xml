@@ -14,6 +14,7 @@
 		<result property="reg_date" column="reg_date"/>
 		<result property="update_date" column="update_date"/>
 		<association property="userVO" resultMap="UserResultMap"/>
+		<association property="articleVO" resultMap="ArticleResultMap"/>
 	</resultMap>
 	
 	<resultMap type="ArticleVO" id="ArticleResultMap">
@@ -119,6 +120,17 @@
 			article_no
 		FROM tb_reply
 		WHERE reply_no = #{reply_no}
+	</select>
+	
+	<select id="userReplies" resultMap="ReplyResultMap">
+		SELECT 
+			r.reply_text
+			, r.reg_date
+			, a.title
+			, a.article_no
+		FROM tb_reply r, tb_article a
+		WHERE r.article_no = a.article_no
+			AND r.reply_writer = #{userId}
 	</select>
 	
 </mapper>

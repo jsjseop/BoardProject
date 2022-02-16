@@ -21,4 +21,6 @@ public interface ReplyDAO {
 	
 	int getArticleNo(Integer reply_no) throws Exception;
 	
+	List<ReplyVO> userReplies(String userId) throws Exception;
+	
 }

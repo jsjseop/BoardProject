@@ -61,4 +61,10 @@ public class ReplyServiceImpl implements ReplyService {
 		return replyDAO.countReplies(article_no);
 	}
 
+	@Override
+	public List<ReplyVO> userReplies(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return replyDAO.userReplies(userId);
+	}
+
 }

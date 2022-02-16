@@ -95,4 +95,10 @@ public class ArticleDAOImpl implements ArticleDAO {
 		sqlSession.update(NAMESPACE + ".updateViewCnt", article_no);
 	}
 
+	@Override
+	public List<ArticleVO> userBoardList(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".userBoardList", userId);
+	}
+
 }

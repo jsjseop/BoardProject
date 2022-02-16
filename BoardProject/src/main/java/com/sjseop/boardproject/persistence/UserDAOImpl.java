@@ -48,4 +48,37 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne(NAMESPACE + ".checkUserWithSessionKey", sessionId);
 	}
 
+	@Override
+	public void updateUser(UserVO userVO) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update(NAMESPACE + ".updateUser", userVO);
+	}
+
+	@Override
+	public UserVO getUser(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + ".getUser", userId);
+	}
+
+	@Override
+	public void updatePw(UserVO userVO) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update(NAMESPACE + ".updatePw", userVO);
+	}
+
+	@Override
+	public void updateImg(String userId, String userImg) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("userId", userId);
+		paramMap.put("userImg", userImg);
+		sqlSession.update(NAMESPACE + ".updateImg", paramMap);
+	}
+
+	@Override
+	public void updateLoginDate(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update(NAMESPACE + ".updateLoginDate", userId);
+	}
+
 }

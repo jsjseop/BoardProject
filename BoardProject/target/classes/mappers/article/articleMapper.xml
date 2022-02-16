@@ -187,4 +187,11 @@
 		</if>
 	</sql>
 	
+	<select id="userBoardList" resultMap="ArticleResultMap">
+		SELECT *
+		FROM tb_article
+		WHERE writer = #{userId}
+		ORDER BY article_no DESC
+	</select>
+	
 </mapper>

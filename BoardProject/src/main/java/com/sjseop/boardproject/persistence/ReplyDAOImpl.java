@@ -65,4 +65,10 @@ public class ReplyDAOImpl implements ReplyDAO {
 		return sqlSession.selectOne(NAMESPACE + ".getArticleNo", reply_no);
 	}
 
+	@Override
+	public List<ReplyVO> userReplies(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".userReplies", userId);
+	}
+
 }

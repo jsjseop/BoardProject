@@ -18,4 +18,6 @@ public interface ReplyService {
 	List<ReplyVO> getRepliesPaging(Integer article_no, Criteria criteria) throws Exception;
 	
 	int countReplies(Integer article_no) throws Exception;
+	
+	List<ReplyVO> userReplies(String userId) throws Exception;
 }
